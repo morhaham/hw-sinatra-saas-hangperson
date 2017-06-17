@@ -1,15 +1,21 @@
 class HangpersonGame
-
-  # add the necessary class methods, attributes, etc. here
-  # to make the tests in spec/hangperson_game_spec.rb pass.
-
-  # Get a word from remote "random word" service
-
-  # def initialize()
-  # end
+  attr_accessor :word, :guesses, :wrong_guesses
+  
+  def guess letter 
+    if @word.include? letter and !@guesses.include? letter then
+      @guesses += letter
+      true
+    elsif !@wrong_guesses.include? letter and !@word.include? letter then
+      @wrong_guesses += letter
+    else
+      false
+    end
+  end
   
   def initialize(word)
     @word = word
+    @guesses = ''
+    @wrong_guesses = ''
   end
 
   def self.get_random_word
@@ -20,3 +26,18 @@ class HangpersonGame
   end
 
 end
+
+def guess_several_letters game, letters
+  letters.split('').each do |l|
+    if game.word.include? l and !game.guesses.include? l then
+    game.guesses += l
+    else
+       game.wrong_guesses += l
+    end
+  end
+end
+
+# game = HangpersonGame.new('hello')
+# guess_several_letters(game,'ge')
+
+# p game.guess('e')
