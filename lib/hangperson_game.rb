@@ -1,7 +1,12 @@
 class HangpersonGame
+  
   attr_accessor :word, :guesses, :wrong_guesses
   
-  def guess letter 
+  def guess letter
+    if (letter =~ /^[a-zA-Z]+$/) == nil then
+      raise ArgumentError, "The guess cannot be empty"
+    end
+    letter = letter.downcase
     if @word.include? letter and !@guesses.include? letter then
       @guesses += letter
       true
@@ -11,6 +16,34 @@ class HangpersonGame
       false
     end
   end
+  
+  def word_with_guesses 
+    word_with = ''
+    @word.each_char do |l|
+      flag = false
+      @guesses.each_char do |c|
+        if c == l then
+          word_with += c
+          flag = true
+        end
+      end
+      if !flag then
+        word_with += '-'
+      end
+    end
+    word_with
+  end
+  
+  def check_win_or_lose
+    if @wrong_guesses.size >= 7 then
+      :lose
+    elsif !word_with_guesses.include? '-' then
+      :win
+    else
+      :play
+    end
+  end
+      
   
   def initialize(word)
     @word = word
@@ -28,6 +61,10 @@ class HangpersonGame
 end
 
 def guess_several_letters game, letters
+  if (letters =~ /^[a-zA-Z]+$/) == nil then
+    raise ArgumentError, "The guess/es cannot be empty"
+  end
+  letters = letters.downcase
   letters.split('').each do |l|
     if game.word.include? l and !game.guesses.include? l then
     game.guesses += l
@@ -36,8 +73,3 @@ def guess_several_letters game, letters
     end
   end
 end
-
-# game = HangpersonGame.new('hello')
-# guess_several_letters(game,'ge')
-
-# p game.guess('e')
