@@ -3,9 +3,7 @@ class HangpersonGame
   attr_accessor :word, :guesses, :wrong_guesses
   
   def guess letter
-    if (letter =~ /^[a-zA-Z]+$/) == nil then
-      raise ArgumentError, "The guess cannot be empty"
-    end
+    letter =~ /^[a-zA-Z]+$/ or raise ArgumentError, "The guess cannot be empty"
     letter = letter.downcase
     if @word.include? letter and !@guesses.include? letter then
       @guesses += letter
@@ -44,7 +42,6 @@ class HangpersonGame
     end
   end
       
-  
   def initialize(word)
     @word = word
     @guesses = ''
@@ -61,15 +58,13 @@ class HangpersonGame
 end
 
 def guess_several_letters game, letters
-  if (letters =~ /^[a-zA-Z]+$/) == nil then
-    raise ArgumentError, "The guess/es cannot be empty"
-  end
+  letters =~ /^[a-zA-Z]+$/ or raise ArgumentError, "The guess cannot be empty"
   letters = letters.downcase
   letters.split('').each do |l|
     if game.word.include? l and !game.guesses.include? l then
     game.guesses += l
     else
-       game.wrong_guesses += l
+      game.wrong_guesses += l
     end
   end
 end
