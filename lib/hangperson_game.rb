@@ -33,7 +33,7 @@ class HangpersonGame
   end
   
   def check_win_or_lose
-    if @wrong_guesses.size >= 7 then
+    if (@wrong_guesses + @guesses).size >= 7 then
       :lose
     elsif !word_with_guesses.include? '-' then
       :win
