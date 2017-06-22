@@ -39,7 +39,9 @@ class HangpersonApp < Sinatra::Base
   # If a guess is invalid, set flash[:message] to "Invalid guess."
   post '/guess' do
     letter = params[:guess].to_s[0]
-    @game.guess(letter)
+    if letter then
+      @game.guess(letter)
+    end
     redirect '/show'
   end
   
